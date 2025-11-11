@@ -24,11 +24,12 @@
 // export default usersRouter;
 
 import express from 'express';
+import { eduUsersTest } from '../app/middlewares/edu/edu.middleware.js';
 
 const userRouter = express.Router();
 
 // 회원정보 조회
-userRouter.get('/:id', (request, response, next) => {
+userRouter.get('/:id', eduUsersTest, (request, response, next) => {
   response.status(200).send('유저 정보 조회 완료')
 });
 

@@ -1,9 +1,12 @@
-import express, { request, response } from 'express'; // express 모듈 가져오기
+import express from 'express'; // express 모듈 가져오기
 import authRouter from './routes/auth.router.js';
 import usersRouter from './routes/users.router.js';
+import { eduTest } from './app/middlewares/edu/edu.middleware.js';
 
 const app = express(); // express 객체 등록
 app.use(express.json()); // JSON으로 요청이 올 경우 파싱 처리
+app.use(eduTest); // 커스텀 미들웨어 전역 등록
+
 
 // 유저가 보낸 요청이 https가 개시이고, 경로가 '/'이면 뒤의 처리를 진행한다.
 // 클라이언트가 '/' 경로로 GET 요청을 보낼 때 실행되는 Router
