@@ -68,7 +68,7 @@ app.post('/api/posts/', (request, response, next) => {
 // 라우트 그룹
 // -------------
 // 라우트를 모듈로 나누고 그룹핑하여 관리
-app.use('/', authRouter);
+app.use('/api', authRouter);
 app.use('/api/users', usersRouter);
 
 // ------------
