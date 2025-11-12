@@ -20,11 +20,8 @@ userRouter.get("/:id", async (request, response, next) => {
     // ------------------
     // Sequelize로 DB연동
     // ------------------
-    try {
-      
-    } catch(error) {
-      next(error);
-    }
+    const result = await Employee.findByPk(id);
+    return response.status(200).send(result);
     
     
     
