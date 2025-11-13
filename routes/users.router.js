@@ -17,29 +17,29 @@ userRouter.put('/:id', (request, response, next) => {
 userRouter.get("/:id", async (request, response, next) => {
   try {
     const id = parseInt(request.params.id);
-    // ------------------
-    // Sequelize로 DB연동
-    // ------------------
+    // // ------------------
+    // // Sequelize로 DB연동
+    // // ------------------
     const result = await Employee.findByPk(id);
     return response.status(200).send(result);
     
     
     
-    // ------------------
-    // mysql2로 DB연동
-    // ------------------
-    // 쿼리 작성
+    // // ------------------
+    // // mysql2로 DB연동
+    // // ------------------
+    // // 쿼리 작성
     // const sql = `
     //   SELECT *
     //   FROM employees
     //   WHERE 
     //     emp_id = ?
-    //     AND emp_id = ?
-    // `;
-    // emp_id = ${id}로 하게되면 유저가 '' OR 1=1 과 같은식으로 쿼리를 공격해서 모든 데이터를 가져갈 수 있다.
-    // const [result] = await pool.query(sql);
-    // 아래 Prepared Statement로 안전하게 이용
-    // const [result] = await pool.execute(sql, [id, id])
+    //     `;
+    //     // AND emp_id = ?
+    // // emp_id = ${id}로 하게되면 유저가 '' OR 1=1 과 같은식으로 쿼리를 공격해서 모든 데이터를 가져갈 수 있다.
+    // // const [result] = await pool.query(sql);
+    // // 아래 Prepared Statement로 안전하게 이용
+    // const [result] = await pool.execute(sql, [id])
 
     // return response.status(200).send(result);
   } catch (error) {

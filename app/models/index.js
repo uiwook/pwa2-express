@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
     timezone: process.env.DB_MYSQL_TIMEZONE,    // 타임존 (+09:00) utc기준이기 때문
     logging: process.env.DB_MYSQL_LOG_FLG === 'true' && console.log, // DB Logging
     dialectOptions: {
-      dataStrings: true // 문자열로 날짜 받기
+      dateStrings: true // 문자열로 날짜 받기
     },
     pool: { // 커넥션풀 설정
       max: parseInt(process.env.DB_MYSQL_CONNECTION_COUNT_MAX), // 최대 커넥션 수
