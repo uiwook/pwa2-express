@@ -132,6 +132,11 @@ const Employee = {
     const defineEmployee = sequelize.define(modelName, attributes, options);
 
     return defineEmployee;
+  },
+// 모델 관계를 정의
+  associate: (db) => {
+    // 1:n 관계에서 부모 모델에 설정하는 방법 (1명의 사원은 복수의 직급 정보를 가진다.)
+    db.Employee.hasMany(db.TitleEmp, { sourceKey: 'empId', foreignKey: 'empId', as: 'titleEmps'});
   }
 };
 

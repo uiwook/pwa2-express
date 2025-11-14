@@ -2,7 +2,7 @@ import express from 'express';
 import db from '../app/models/index.js'
 import { Op } from 'sequelize';
 import dayjs from 'dayjs';
-const { sequelize, Employee } = db;
+const { sequelize, Employee, TitleEmp, Title } = db;
 
 const eduRouter = express.Router();
 
@@ -197,11 +197,60 @@ eduRouter.get('/api/edu', async (request, response, next) => {
     //   offset: 10
     // });
 
-    // groupby, having
-    result = await Employee.findAll({
-      attributes: ['gender', [sequelize.fn('COUNT', sequelize.col('*')), 'cnt_gender']],
-      group: ['gender'],
-      having: sequelize.literal('cnt_gender >= 40000'),
+    // // groupby, having
+    // result = await Employee.findAll({
+    //   attributes: ['gender', [sequelize.fn('COUNT', sequelize.col('*')), 'cnt_gender']],
+    //   group: ['gender'],
+    //   having: sequelize.literal('cnt_gender >= 40000'),
+    // });
+
+    // join
+    // result = await Title.findOne({
+    //   attributes: ['title'], // 각 테이블의 컬럼 조회
+    //   include: [
+    //     {
+    //       model: TitleEmp, // 내가 연결할 모델
+    //       as: 'titleEmps', // 내가 사용할 관계
+    //       required: true, // `true`면 Inner join, `false`면 Left Outer Join
+    //       attributes: ['titleCode', 'empId'], // 각 테이블의 컬럼 조회
+    //       where: {
+    //         empId: 1,
+    //         endAt: {
+    //           [Op.is]: null,
+    //         }
+    //       }
+    //     }
+    //   ]
+    // });
+
+    result = await Employee.findOne({
+      attributes: ['empId', 'name'], // 각 테이블의 컬럼 조회
+      where: {
+        empId: 1
+      },
+      include: [
+        {
+          model: TitleEmp, // 내가 연결할 모델
+          as: 'titleEmps', // 내가 사용할 관계
+          required: true, // `true`면 Inner join, `false`면 Left Outer Join
+          attributes: ['titleCode'], // 각 테이블의 컬럼 조회
+          separate: true, // Lazy Loading : n -> 1일때만 사용가능
+          where: {
+            endAt: {
+              [Op.is]: null,
+            }
+          },
+          include: [
+            {
+              // model: Title,
+              // as: 'title',
+              association: 'title',
+              required: true,
+              attributes: ['title'],
+            }
+          ]
+        }
+      ]
     });
 
     return response.status(200).send({
@@ -211,7 +260,6 @@ eduRouter.get('/api/edu', async (request, response, next) => {
   } catch (error) {
     next(error);
   }
-  
 });
 
 export default eduRouter;

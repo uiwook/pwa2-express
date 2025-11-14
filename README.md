@@ -5,6 +5,7 @@ npm install express-validator
 ```
 
 ## 유효성 체크 처리 디렉토리 구조
+```
 middlewares/
 └─ validations/
   ├─ fields/     # 각 요소들의 유효성 체크 처리 로직이 있는 디렉토리
